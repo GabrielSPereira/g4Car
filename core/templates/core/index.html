@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Home-G4Car
+{% endblock %}
+
+{% block main %}
+    <h2 class="principal">G4 - Veículos</h2>
+
+    <a href="cadastro_cliente/">cadastro_cliente</a> &nbsp;
+    <a href="listagem_clientes/">listagem_clientes</a> &nbsp;
+    <a href="cadastro_veiculo/">cadastro_veículo</a> &nbsp;
+    <a href="listagem_veiculos/">listagem_veículos</a> &nbsp; &nbsp; &nbsp; &nbsp;
+
+    {% if user.get_username %}
+        (Usuário : {{ user.get_username }} | <a href="accounts/logout/">Sair</a>)
+    {% else %}
+        (Usuário não autenticado | <a href="accounts/login/">Login</a>) &nbsp; &nbsp; &nbsp;
+            <a href="registrar/">Registrar</a>
+    {% endif %}
+
+    <br/><br/>
+    <img src="{% static 'img/fundo.png' %}" width="550px">
+{% endblock %}
