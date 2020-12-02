@@ -1,8 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     Listagem Clientes-G4Car
 {% endblock %}
 
 {% block main %}
-    --- Listagem de Clientes ---
+    <h2>Listagem de Clientes</h2>
+    {% for cliente in clientes %}
+        Nome: {{ cliente.nome }} <br/>
+        Endereço: {{ cliente.endereco }} <br/>
+        Complemento: {{ cliente.complemento }} <br/>
+        Bairro: {{ cliente.bairro }} <br/>
+        Cidade: {{ cliente.cidade }} <br/>
+        CEP: {{ cliente.cep }} <br/>
+        E-mail: {{ cliente.email }} <br/>
+        Telefone: {{ cliente.telefone }} <br/>
+        {% if cliente.foto %}
+            <img src="{{ cliente.foto.url }}" width="100"> <br/>
+        {% else %}
+            <img src="{% static 'img/foto-perfil-generica.jpg' %}" width="100"> <br/>
+        {% endif %}
+        ----------------------------------------------------------<br/><br/>
+    {% endfor %}
 {% endblock %}

@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from core.views import home, cadastro_cliente, listagem_clientes, cadastro_veiculo, listagem_veiculos, Registrar
+from core.views import home, cadastro_cliente, listagem_clientes, \
+    cadastro_veiculo, listagem_veiculos, Registrar
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,3 +30,5 @@ urlpatterns = [
     path('cadastro_veiculo/', cadastro_veiculo, name='url_cadastro_veiculo'),
     path('listagem_veiculos/', listagem_veiculos, name='url_listagem_veiculos'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
