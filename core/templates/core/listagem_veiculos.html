@@ -1,8 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
     Listagem Veículos-G4Car
 {% endblock %}
 
 {% block main %}
-    --- Listagem de Veículos ---
+    <h2>Listagem de Veículos</h2>
+    {% for veiculo in veiculos %}
+        Fabricante: {{ veiculo.fabricante }} <br/>
+        Modelo: {{ veiculo.modelo }} <br/>
+
+        Cor:
+        {% if veiculo.cor %}
+            {{ veiculo.cor }} <br/>
+        {% endif %}
+
+        Ano:
+        {% if veiculo.ano %}
+            {{ veiculo.ano }} <br/>
+        {% endif %}
+
+        Proprietário: {{ veiculo.id_cliente }} <br/>
+        {% if veiculo.foto %}
+            <img src="{{ veiculo.foto.url }}" width="100"> <br/>
+        {% else %}
+            <img src="{% static 'img/foto-veiculo-generica.jpg' %}" width="100"> <br/>
+        {% endif %}
+        ----------------------------------------------------------<br/><br/>
+    {% endfor %}
 {% endblock %}

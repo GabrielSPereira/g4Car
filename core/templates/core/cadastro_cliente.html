@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}
-    Cadastro Cliente-G4Car
+    {{ titulo }} Cliente - G4Car
 {% endblock %}
 
 {% block main %}
-    --- Cadastro de Cliente ---
+    <h3>{{ acao }} de Cliente</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button> &nbsp;
+        <button type="button" onclick="location.href='/'">Cancelar</button>
+    </form>
 {% endblock %}
