@@ -3,8 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from core.models import Cliente, Veiculo
-from core.forms import FormCliente, FormVeiculo
+from core.models import Cliente, Veiculo, Parametro, \
+    Movimento, Mensalista
+from core.forms import FormCliente, FormVeiculo, \
+    FormParametro, FormMovimento, FormMensalista
 
 
 # Create your views here.
@@ -31,7 +33,13 @@ def cadastro_cliente(request):
 
 @login_required
 def listagem_clientes(request):
-    clientes = Cliente.objects.all()
+    if request.POST:
+        if request.POST['nome']:
+            clientes = Cliente.objects.filter(nome=request.POST['nome'])
+        else:
+            clientes = Cliente.objects.all()
+    else:
+        clientes = Cliente.objects.all()
     contexto = {'clientes':clientes}
     return render(request, 'core/listagem_clientes.html', contexto)
 
@@ -69,8 +77,72 @@ def atualiza_cliente(request, id):
 @login_required
 def exclui_cliente(request, id):
     obj = Cliente.objects.get(id=id)
+    contexto = {'acao': obj.nome, 'redirect': '/listagem_clientes/'}
     if request.POST:
         obj.delete()
         return redirect('url_listagem_clientes')
     else:
-        return render(request, 'core/confirma_exclusao.html', {'acao':obj.nome})
+        return render(request, 'core/confirma_exclusao.html', contexto)
+
+
+
+@login_required
+def cadastro_parametro(request):
+    form = FormParametro(request.POST or None)
+    contexto = {'form': form, 'acao': 'Cadastro de Parametro', 'titulo': 'Cadastro de Parametro'}
+    if form.is_valid():
+        form.save()
+        return redirect('url_listagem_parametros')
+    else:
+        return render(request, 'core/cadastro_parametro.html', contexto)
+
+
+@login_required
+def listagem_parametros(request):
+    dados = Parametro.objects.all()
+    contexto = {'parametros': dados}
+    return render(request, 'core/listagem_parametros.html', contexto)
+
+
+@login_required
+def cadastro_mensalista(request):
+    form = FormMensalista(request.POST or None)
+    contexto = {'form': form, 'acao': 'Cadastro de mensalista', 'titulo': 'Cadastro de mensalista'}
+    if form.is_valid():
+        form.save()
+        return redirect('url_listagem_mensalistas')
+    else:
+        return render(request, 'core/cadastro_mensalista.html', contexto)
+
+
+@login_required
+def listagem_mensalistas(request):
+    dados = Mensalista.objects.all()
+    contexto = {'mensalistas': dados}
+    return render(request, 'core/listagem_mensalistas.html', contexto)
+
+
+@login_required
+def atualiza_parametro(request, id):
+    try:
+        obj = Parametro.objects.get(id=id)
+        form = FormParametro(request.POST or None, instance=obj)
+        contexto = {'form': form, 'acao': 'Atualizacao de parametro'}
+        if form.is_valid():
+            form.save()
+            return redirect('url_listagem_parametros')
+        else:
+            return render(request, 'core/cadastro_mensalista.html', contexto)
+    except:
+        return redirect('url_listagem_parametros')
+
+
+@login_required
+def exclui_parametro(request, id):
+    obj = Parametro.objects.get(id=id)
+    contexto = {'acao': obj.descricao, 'redirect': '/listagem_parametros/'}
+    if request.method == 'POST':
+        obj.delete()
+        return redirect('url_listagem_parametros')
+    else:
+        return render(request, 'core/confirma_exclusao.html', contexto)

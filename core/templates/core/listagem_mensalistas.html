@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    G4car
+{% endblock %}
+
+{% block main %}
+    <h1>Listagem de mensalistas</h1>
+
+    {% for mensalista in mensalistas %}
+        Código: {{ mensalista.id }} </br>
+        Serviço: {{ mensalista.mensalidade }} </br>
+        Valor: {{ mensalista.mensalidade.valor }} </br>
+        Obs: {{ mensalista.observacao }} </br>
+        --------------------------------------- </br> </br>
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Tabela de preços - G4car
+{% endblock %}
+
+{% block main %}
+    <h1>Tabela de preços</h1>
+
+    {% for param in parametros %}
+        Codigo - {{ param.id }} &nbsp; -=-
+        <a href={% url 'url_atualiza_parametro' param.id %}>Editar</a> --
+        <a href={% url 'url_exclui_parametro' param.id %}>Excluir</a> </br>
+        {{ param.descricao }} </br>
+        Valor - {{ param.valor }} </br>
+        --------------------------------------- </br> </br>
+    {% endfor %}
+
+{% endblock %}

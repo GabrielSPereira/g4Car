@@ -18,6 +18,7 @@ class Cliente(models.Model):
     class Meta:
         verbose_name_plural = 'Clientes'
 
+
 class Veiculo(models.Model):
     fabricante = models.CharField(max_length=50)
     modelo = models.CharField(max_length=50)
@@ -32,3 +33,44 @@ class Veiculo(models.Model):
 
     class Meta:
         verbose_name_plural = 'Veiculos'
+
+
+
+class Parametro(models.Model):
+    descricao = models.CharField(max_length=20)
+    valor = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def __str__(self):
+        return f'{self.descricao}\n'
+
+    class Meta:
+        verbose_name_plural = 'Parâmetros'
+
+
+class Movimento(models.Model):
+    data_entrada = models.DateTimeField(auto_now_add=None)
+    data_saida = models.DateTimeField(auto_now_add=None, blank=True, null=True)
+    id_veiculo = models.ForeignKey("Veiculo", on_delete=models.CASCADE)
+    valor_hora = models.ForeignKey("Parametro", on_delete=models.CASCADE)
+    total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+
+    def __str__(self):
+        return f'({self.id}) - {self.data_entrada} - {self.id_veiculo.placa}' \
+               f' - - {self.id_veiculo.modelo} de cor {self.id_veiculo.cor}'
+
+    class Meta:
+        verbose_name_plural = 'Movimentos'
+
+
+class Mensalista(models.Model):
+    mensalidade = models.ForeignKey("Parametro", on_delete=models.CASCADE)
+    id_veiculo = models.ForeignKey("Veiculo", on_delete=models.CASCADE)
+    observacao = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.id_veiculo.placa} - ' \
+               f'{self.id_veiculo.modelo} - - ' \
+               f'Mensalidade - R${self.mensalidade.valor}'
+
+    class Meta:
+        verbose_name_plural = 'Mensalistas'

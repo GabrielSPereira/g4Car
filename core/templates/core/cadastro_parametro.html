@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ titulo }}
+{% endblock %}
+
+{% block main %}
+    <h1>{{ acao }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar</button> <br>
+        <button type="button" onclick="location.href='/'">Cancelar</button>
+    </form>
+{% endblock %} 

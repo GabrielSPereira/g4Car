@@ -6,6 +6,11 @@
 
 {% block main %}
     <h2>Listagem de Clientes</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="nome" > &nbsp; <button type="submit">Pesquisar</button>
+    </form>
+    --------------------------------------------------------------- </br>
     {% for cliente in clientes %}
         Nome: {{ cliente.nome }} &nbsp; | <a href="{% url 'url_atualiza_cliente' cliente.id %}">Editar</a>
         &nbsp; | <a href="{% url 'url_exclui_cliente' cliente.id %}">Excluir</a><br/>
