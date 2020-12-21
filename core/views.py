@@ -132,7 +132,7 @@ def atualiza_parametro(request, id):
             form.save()
             return redirect('url_listagem_parametros')
         else:
-            return render(request, 'core/cadastro_mensalista.html', contexto)
+            return render(request, 'core/cadastro_parametro.html', contexto)
     except:
         return redirect('url_listagem_parametros')
 
@@ -146,3 +146,47 @@ def exclui_parametro(request, id):
         return redirect('url_listagem_parametros')
     else:
         return render(request, 'core/confirma_exclusao.html', contexto)
+
+
+@login_required
+def cadastro_movimento(request):
+    if request.user.is_staff:
+        form = FormMovimento(request.POST or None)
+        contexto = {'form': form, 'titulo': 'Cadastro de movimento', 'acao': 'Cadastro de Movimento'}
+        if form.is_valid():
+            form.save()
+            return redirect('url_listagem_movimentos')
+        return render(request, 'core/cadastro_movimento.html', contexto)
+    else:
+        contexto = {'erro': 'Sem permissão'}
+        return render(request, 'core/erro.html', contexto)
+
+
+@login_required
+def listagem_movimentos(request):
+    dados = Movimento.objects.all()
+    contexto = {'movimentos': dados}
+    return render(request, 'core/listagem_movimentos.html', contexto)
+
+
+@login_required
+def atualiza_movimento(request, id):
+    if request.user.is_staff:
+        try:
+            obj = Movimento.objects.get(id=id)
+            form = FormMovimento(request.POST or None, instance=obj)
+            contexto = {'form': form, 'acao': 'Atualizacao de Movimento', 'titulo': 'Atualiza Movimento - G4car'}
+            if form.is_valid():
+                retorno = obj.calcula_total()
+                if retorno == 'erro':
+                    contexto = {'erro': 'Valor de data de saida menor que de entrada, favor realizar novamente'}
+                    return render(request, 'core/erro.html', contexto)
+                form.save()
+                return redirect('url_listagem_movimentos')
+            else:
+                return render(request, 'core/cadastro_movimento.html', contexto)
+        except:
+            return redirect('url_listagem_movimentos')
+    else:
+        contexto = {'erro': 'Sem permissão'}
+        return render(request, 'core/erro.html', contexto)

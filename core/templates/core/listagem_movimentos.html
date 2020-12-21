@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Lista Movimentos - G4car
+{% endblock %}
+
+{% block main %}
+    <h1>Lista de Movimentos</h1>
+
+    {% for movimento in movimentos %}
+
+        Data de entrada: {{ movimento.data_entrada }} <br>
+        Data de saida: {{ movimento.data_saida }} &nbsp;
+            <a href="{% url 'url_atualiza_movimento' movimento.id %}">Editar</a>
+        <br>
+        Veiculo: {{ movimento.id_veiculo.placa }} <br>
+        Valor hora: {{ movimento.valor_hora.valor }} <br>
+        Total a pagar: {{ movimento.total }} <br>
+        ----------------------------------------------------- <br>
+
+    {% endfor %}
+
+
+{% endblock %}

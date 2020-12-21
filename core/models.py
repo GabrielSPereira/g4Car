@@ -1,3 +1,4 @@
+from math import ceil, floor, trunc
 from django.db import models
 
 # Create your models here.
@@ -13,7 +14,7 @@ class Cliente(models.Model):
     foto = models.ImageField(upload_to='fotos_clientes', blank=True, null=True)
 
     def __str__(self):
-        return self.nome + ' ('+ str(self.id) + ')'
+        return f'{self.descricao} - R${self.valor}'
 
     class Meta:
         verbose_name_plural = 'Clientes'
@@ -47,6 +48,7 @@ class Parametro(models.Model):
         verbose_name_plural = 'Parâmetros'
 
 
+
 class Movimento(models.Model):
     data_entrada = models.DateTimeField(auto_now_add=None)
     data_saida = models.DateTimeField(auto_now_add=None, blank=True, null=True)
@@ -60,6 +62,22 @@ class Movimento(models.Model):
 
     class Meta:
         verbose_name_plural = 'Movimentos'
+
+    def calcula_total(self):
+        if self.data_saida:
+            if self.data_saida < self.data_entrada:
+                return 'erro'
+            horas = (self.data_saida - self.data_entrada).total_seconds() / 3600
+            minutos = (horas * 60) - (trunc(horas) * 60)
+            if minutos > 15:
+                horas = ceil(horas)
+            else:
+                horas = floor(horas)
+            # obj = Parametro.objects.get(id=self.valor_hora) // caso for um parametro opcional
+            self.total = horas * self.valor_hora.valor  # ai substitui por obj.valor
+            return self.total
+        return 0.0
+
 
 
 class Mensalista(models.Model):

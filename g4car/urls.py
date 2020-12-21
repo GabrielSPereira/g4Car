@@ -19,7 +19,8 @@ from core.views import home, cadastro_cliente, listagem_clientes, \
     cadastro_veiculo, listagem_veiculos, Registrar, atualiza_cliente,\
     exclui_cliente, cadastro_parametro, listagem_parametros, \
     cadastro_mensalista, listagem_mensalistas, \
-    atualiza_parametro, exclui_parametro
+    atualiza_parametro, exclui_parametro, cadastro_movimento, \
+    listagem_movimentos, atualiza_movimento
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -40,6 +41,9 @@ urlpatterns = [
     path('listagem_mensalistas/', listagem_mensalistas, name='url_listagem_mensalistas'),
     path('atualiza_parametro/<int:id>', atualiza_parametro, name='url_atualiza_parametro'),
     path('exclui_parametro/<int:id>', exclui_parametro, name='url_exclui_parametro'),
+    path('cadastro_movimento/', cadastro_movimento, name='url_cadastro_movimento'),
+    path('listagem_movimentos/', listagem_movimentos, name='url_listagem_movimentos'),
+    path('atualiza_movimento/<int:id>/', atualiza_movimento, name='url_atualiza_movimento'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
