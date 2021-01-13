@@ -27,9 +27,9 @@ SECRET_KEY = 'bzw*)65m+-zd-g9%l=_k=7xsk@$+)ckf1(rdb&+hcd#$9g%t@+'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '0.0.0.0'
+    '*',
     'g4car.herokuapp.com',
-    '127.0.0.1'
+    '127.0.0.1',
 ]
 
 
