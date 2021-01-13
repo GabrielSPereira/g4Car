@@ -5,20 +5,38 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Lista de Movimentos</h1>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="text" name="placa" placeholder="Pesquisar por placa">
+            <button class="btn btn-success" type="submit">Pesquisar</button>
+        </form>
+    </nav>
+    <br/>
 
-    {% for movimento in movimentos %}
+    {% if messages %}
+        {% for mensagem in messages %}
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong> {{ mensagem }} </strong>
+            </div>
+        {% endfor %}
+    {% endif %}
 
-        Data de entrada: {{ movimento.data_entrada }} <br>
-        Data de saida: {{ movimento.data_saida }} &nbsp;
-            <a href="{% url 'url_atualiza_movimento' movimento.id %}">Editar</a>
-        <br>
-        Veiculo: {{ movimento.id_veiculo.placa }} <br>
-        Valor hora: {{ movimento.valor_hora.valor }} <br>
-        Total a pagar: {{ movimento.total }} <br>
-        ----------------------------------------------------- <br>
-
-    {% endfor %}
+    <ul class="list-group">
+        {% for movimento in movimentos %}
+            <li class="list-group-item">
+            Data de entrada: {{ movimento.data_entrada }} <br>
+            Data de saida: {{ movimento.data_saida }} &nbsp;
+                <a href="{% url 'url_atualiza_movimento' movimento.id %}">Editar</a>
+                <a href={% url 'url_exclui_movimento' movimento.id %}>Excluir</a>
+            <br>
+            Veiculo: {{ movimento.id_veiculo.placa }} <br>
+            Valor hora: {{ movimento.valor_hora.valor }} <br>
+            Total a pagar: {{ movimento.total }} <br>
+            </li>
+        {% endfor %}
+    </ul>
 
 
 {% endblock %}

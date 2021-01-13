@@ -5,28 +5,51 @@
 {% endblock %}
 
 {% block main %}
-    <h2>Listagem de Clientes</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="nome" > &nbsp; <button type="submit">Pesquisar</button>
-    </form>
-    --------------------------------------------------------------- </br>
-    {% for cliente in clientes %}
-        Nome: {{ cliente.nome }} &nbsp; | <a href="{% url 'url_atualiza_cliente' cliente.id %}">Editar</a>
-        &nbsp; | <a href="{% url 'url_exclui_cliente' cliente.id %}">Excluir</a><br/>
-        Endereço: {{ cliente.endereco }} <br/>
-        Complemento: {{ cliente.complemento }} <br/>
-        Bairro: {{ cliente.bairro }} <br/>
-        Cidade: {{ cliente.cidade }} <br/>
-        CEP: {{ cliente.cep }} <br/>
-        E-mail: {{ cliente.email }} <br/>
-        Telefone: {{ cliente.telefone }} <br/>
-        {% if cliente.foto %}
-            <img src="{{ cliente.foto.url }}" width="100"> <br/>
-        {% else %}
-            <img src="{% static 'img/foto-perfil-generica.jpg' %}" width="100"> <br/>
-        {% endif %}
-        ----------------------------------------------------------<br/><br/>
-    {% endfor %}
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="text" name="nome" placeholder="Pesquisar nome">
+            <button class="btn btn-success" type="submit">Pesquisar</button>
+        </form>
+    </nav>
+    <br/>
+    {% if messages %}
+        {% for mensagem in messages %}
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong> {{ mensagem }} </strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <ul class="list-group">
+        {% for cliente in clientes %}
+            <li class="list-group-item">
+
+            Nome: {{ cliente.nome }} &nbsp; | &nbsp;
+            <a href="{% url 'url_atualiza_cliente' cliente.id %}">Editar</a> |
+            <a href="{% url 'url_exclui_cliente' cliente.id %}">Excluir</a> <br>
+            Endereço: {{ cliente.endereco }} <br>
+            Complemento: {{ cliente.complemento }}<br>
+            Bairro: {{ cliente.bairro }}<br>
+            Cidade: {{ cliente.cidade }}<br>
+            CEP: {{ cliente.cep }}<br>
+            Telefone: {{ cliente.telefone }}<br>
+            Email: {{ cliente.email }}<br>
+            {% if cliente.foto %}
+                <img
+                    src="{{ cliente.foto.url }}"
+                    width="100"
+                    alt="foto - cliente"
+                >
+            {% else %}
+                <img
+                    src="{% static 'img/generic.png' %}"
+                    width="100"
+                    alt="foto - generica"
+                >
+            {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
     <a href="/">Home</a>
 {% endblock %}

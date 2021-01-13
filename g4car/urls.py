@@ -20,7 +20,9 @@ from core.views import home, cadastro_cliente, listagem_clientes, \
     exclui_cliente, cadastro_parametro, listagem_parametros, \
     cadastro_mensalista, listagem_mensalistas, \
     atualiza_parametro, exclui_parametro, cadastro_movimento, \
-    listagem_movimentos, atualiza_movimento
+    listagem_movimentos, atualiza_movimento, atualiza_mensalista, \
+    exclui_movimento, exclui_mensalista, atualiza_veiculo, \
+    exclui_veiculo
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -33,17 +35,22 @@ urlpatterns = [
     path('listagem_clientes/', listagem_clientes, name='url_listagem_clientes'),
     path('cadastro_veiculo/', cadastro_veiculo, name='url_cadastro_veiculo'),
     path('listagem_veiculos/', listagem_veiculos, name='url_listagem_veiculos'),
+    path('atualiza_veiculo/<int:id>', atualiza_veiculo, name='url_atualiza_veiculo'),
+    path('exclui_veiculo/<int:id>', exclui_veiculo, name='url_exclui_veiculo'),
     path('atualiza_cliente/<int:id>', atualiza_cliente, name='url_atualiza_cliente'),
     path('confirma_exclusao/<int:id>', exclui_cliente, name='url_exclui_cliente'),
     path('cadastro_parametro/', cadastro_parametro, name='url_cadastro_parametro'),
     path('listagem_parametros/', listagem_parametros, name='url_listagem_parametros'),
     path('cadastro_mensalista/', cadastro_mensalista, name='url_cadastro_mensalista'),
     path('listagem_mensalistas/', listagem_mensalistas, name='url_listagem_mensalistas'),
+    path('atualiza_mensalista/<int:id>', atualiza_mensalista, name='url_atualiza_mensalista'),
+    path('exclui_mensalista/<int:id>', exclui_mensalista, name='url_exclui_mensalista'),
     path('atualiza_parametro/<int:id>', atualiza_parametro, name='url_atualiza_parametro'),
     path('exclui_parametro/<int:id>', exclui_parametro, name='url_exclui_parametro'),
     path('cadastro_movimento/', cadastro_movimento, name='url_cadastro_movimento'),
     path('listagem_movimentos/', listagem_movimentos, name='url_listagem_movimentos'),
     path('atualiza_movimento/<int:id>/', atualiza_movimento, name='url_atualiza_movimento'),
+    path('exclui_movimento/<int:id>', exclui_movimento, name='url_exclui_movimento'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

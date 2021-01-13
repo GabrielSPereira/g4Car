@@ -1,31 +1,64 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}
-    Listagem Veículos-G4Car
+    Listagem veiculos
 {% endblock %}
 
 {% block main %}
-    <h2>Listagem de Veículos</h2>
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="text" name="modelo" placeholder="Pesquisar modelo">
+            <button class="btn btn-success" type="submit">Pesquisar</button>
+        </form>
+    </nav>
+    <br>
+
+    {% if messages %}
+        {% for mensagem in messages %}
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong> {{ mensagem }} </strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <ul class="list-group">
+
     {% for veiculo in veiculos %}
-        Fabricante: {{ veiculo.fabricante }} <br/>
-        Modelo: {{ veiculo.modelo }} <br/>
+        <li class="list-group-item">
+        Modelo: {{ veiculo.modelo }}
+        <a href="{% url 'url_atualiza_veiculo' veiculo.id %}">Editar</a> |
+        <a href="{% url 'url_exclui_veiculo' veiculo.id %}">Excluir</a> <br>
+        Fabricante: {{ veiculo.fabricante }} <br>
 
-        Cor:
-        {% if veiculo.cor %}
-            {{ veiculo.cor }} <br/>
-        {% endif %}
 
-        Ano:
         {% if veiculo.ano %}
-            {{ veiculo.ano }} <br/>
+            Ano: {{ veiculo.ano }} <br>
+        {% else %}
+            Ano: N informado. <br>
         {% endif %}
 
-        Proprietário: {{ veiculo.id_cliente }} <br/>
-        {% if veiculo.foto %}
-            <img src="{{ veiculo.foto.url }}" width="100"> <br/>
+        {% if veiculo.cor %}
+            Cor: {{ veiculo.cor }} <br>
         {% else %}
-            <img src="{% static 'img/foto-veiculo-generica.jpg' %}" width="100"> <br/>
+            Cor: N informado. <br>
         {% endif %}
-        ----------------------------------------------------------<br/><br/>
+
+        Placa: {{ veiculo.placa }} <br>
+        Dono: {{ veiculo.id_cliente }} <br>
+
+        <br>
+
+        {% if veiculo.foto %}
+            <img src="{{ veiculo.foto.url }}" width="150" alt="foto - veiculo">
+        {% else %}
+            <img src="{% static 'img/genericCar.jpg' %}" width="150" alt="foto - generica">
+        {% endif %}
+        <br> <br>
+        </li>
     {% endfor %}
+    </ul>
 {% endblock %}

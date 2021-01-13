@@ -5,14 +5,37 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Listagem de mensalistas</h1>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="text" name="codigo" placeholder="Pesquisar por codigo">
+            <button class="btn btn-success" type="submit">Pesquisar</button>
+        </form>
+    </nav>
+    <br>
 
-    {% for mensalista in mensalistas %}
-        Código: {{ mensalista.id }} </br>
-        Serviço: {{ mensalista.mensalidade }} </br>
-        Valor: {{ mensalista.mensalidade.valor }} </br>
-        Obs: {{ mensalista.observacao }} </br>
-        --------------------------------------- </br> </br>
-    {% endfor %}
+    {% if messages %}
+        {% for mensagem in messages %}
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong> {{ mensagem }} </strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <ul class="list-group">
+
+        {% for mensalista in mensalistas %}
+            <li class="list-group-item">
+            Código: {{ mensalista.id }} --
+            <a href="{% url 'url_atualiza_mensalista' mensalista.id %}">Editar</a> -
+            <a href="{% url 'url_exclui_mensalista' mensalista.id %}">Excluir</a>
+            </br>
+            Serviço: {{ mensalista.mensalidade }} </br>
+            Valor: {{ mensalista.mensalidade.valor }} </br>
+            Obs: {{ mensalista.observacao }} </br>
+            </li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}

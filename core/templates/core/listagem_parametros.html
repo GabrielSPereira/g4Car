@@ -5,15 +5,35 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Tabela de preços</h1>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <form class="form-inline" method="post">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="text" name="codigo" placeholder="Pesquisar codigo">
+            <button class="btn btn-success" type="submit">Pesquisar</button>
+        </form>
+    </nav>
+    <br>
 
-    {% for param in parametros %}
-        Codigo - {{ param.id }} &nbsp; -=-
-        <a href={% url 'url_atualiza_parametro' param.id %}>Editar</a> --
-        <a href={% url 'url_exclui_parametro' param.id %}>Excluir</a> </br>
-        {{ param.descricao }} </br>
-        Valor - {{ param.valor }} </br>
-        --------------------------------------- </br> </br>
-    {% endfor %}
+    {% if messages %}
+        {% for mensagem in messages %}
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong> {{ mensagem }} </strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <ul class="list-group">
+        {% for param in parametros %}
+            <li class="list-group-item">
+                Codigo - {{ param.id }} &nbsp; -=-
+                <a href={% url 'url_atualiza_parametro' param.id %}>Editar</a> --
+                <a href={% url 'url_exclui_parametro' param.id %}>Excluir</a> </br>
+                {{ param.descricao }} </br>
+                Valor - {{ param.valor }} </br>
+            </li>
+        {% endfor %}
+    </ul>
+
 
 {% endblock %}

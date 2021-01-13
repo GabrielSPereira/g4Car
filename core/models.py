@@ -14,7 +14,7 @@ class Cliente(models.Model):
     foto = models.ImageField(upload_to='fotos_clientes', blank=True, null=True)
 
     def __str__(self):
-        return f'{self.descricao} - R${self.valor}'
+        return f'{self.nome}'
 
     class Meta:
         verbose_name_plural = 'Clientes'
